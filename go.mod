@@ -1,4 +1,4 @@
-module fremont
+module sanjose
 
 go 1.20
 

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fremont/config"
-	"fremont/controller"
-	"fremont/service"
-	"fremont/utils"
 	"github.com/gin-gonic/gin"
+	"sanjose/config"
+	"sanjose/controller"
+	"sanjose/service"
+	"sanjose/utils"
 )
 
 var router *gin.Engine

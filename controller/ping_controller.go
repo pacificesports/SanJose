@@ -1,12 +1,12 @@
 package controller
 
 import (
-	"fremont/config"
-	"fremont/utils"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
 	oteltrace "go.opentelemetry.io/otel/trace"
 	"net/http"
+	"sanjose/config"
+	"sanjose/utils"
 )
 
 func Ping(c *gin.Context) {

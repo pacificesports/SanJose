@@ -2,16 +2,15 @@ package controller
 
 import (
 	"context"
-	"fremont/service"
-	"fremont/utils"
 	"github.com/gin-gonic/gin"
 	"log"
+	"sanjose/service"
+	"sanjose/utils"
 	"strings"
 )
 
 func InitializeRoutes(router *gin.Engine) {
-	// TODO: change ping route
-	router.GET("/fremont/ping", Ping)
+	router.GET("/sj/ping", Ping)
 }
 
 func RequestLogger() gin.HandlerFunc {

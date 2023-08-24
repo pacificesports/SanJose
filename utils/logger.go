@@ -2,7 +2,7 @@ package utils
 
 import (
 	"go.uber.org/zap"
-	"rincon/config"
+	"sanjose/config"
 )
 
 var Logger *zap.Logger

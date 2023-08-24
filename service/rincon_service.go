@@ -3,9 +3,9 @@ package service
 import (
 	"bytes"
 	"encoding/json"
-	"fremont/config"
-	"fremont/utils"
 	"net/http"
+	"sanjose/config"
+	"sanjose/utils"
 	"strconv"
 	"time"
 )
@@ -16,11 +16,9 @@ var rinconHost = "http://rincon"
 func RegisterRincon() {
 	var portInt, _ = strconv.Atoi(config.Port)
 	rinconBody, _ := json.Marshal(map[string]interface{}{
-		// TODO: change service name
-		"name":    "Fremont",
-		"version": config.Version,
-		// TODO: change service url
-		"url":          "http://fremont:" + config.Port,
+		"name":         "SanJose",
+		"version":      config.Version,
+		"url":          "http://sanjose:" + config.Port,
 		"port":         portInt,
 		"status_email": config.StatusEmail,
 	})
@@ -47,8 +45,7 @@ func RegisterRincon() {
 			json.NewDecoder(res.Body).Decode(&config.Service)
 		}
 		utils.SugarLogger.Infoln("Registered service with Rincon! Service ID: " + strconv.Itoa(config.Service.ID))
-		// TODO: change route
-		RegisterRinconRoute("/fremont")
+		RegisterRinconRoute("/sj")
 	}
 }
 

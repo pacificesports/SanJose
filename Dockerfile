@@ -14,7 +14,7 @@ RUN go mod download
 
 COPY . ./
 
-RUN go build -o /fremont
+RUN go build -o /sanjose
 
 ##
 ## Deploy
@@ -23,9 +23,9 @@ FROM alpine:3.17
 
 WORKDIR /
 
-COPY --from=builder /fremont /fremont
+COPY --from=builder /sanjose /sanjose
 
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 ENV TZ=America/Los_Angeles
 
-ENTRYPOINT ["/fremont"]
+ENTRYPOINT ["/sanjose"]

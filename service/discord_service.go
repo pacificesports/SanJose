@@ -1,9 +1,9 @@
 package service
 
 import (
-	"fremont/config"
-	"fremont/utils"
 	"github.com/bwmarrin/discordgo"
+	"sanjose/config"
+	"sanjose/utils"
 )
 
 var Discord *discordgo.Session

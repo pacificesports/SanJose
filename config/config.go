@@ -1,8 +1,8 @@
 package config
 
 import (
-	"fremont/model"
 	"os"
+	"sanjose/model"
 )
 
 var Service = model.Service{}
