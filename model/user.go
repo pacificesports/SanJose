@@ -12,7 +12,7 @@ type User struct {
 	ProfilePictureURL string       `json:"profile_picture_url"`
 	Bio               string       `json:"bio"`
 	Gender            string       `json:"gender"`
-	Roles             []Role       `gorm:"-" json:"roles"`
+	Roles             []string     `gorm:"-" json:"roles"`
 	Privacy           Privacy      `gorm:"-" json:"privacy"`
 	School            School       `gorm:"-" json:"school"`
 	Verification      Verification `gorm:"-" json:"verification"`

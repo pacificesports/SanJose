@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/bwmarrin/discordgo"
 	"sanjose/config"
+	"sanjose/model"
 	"sanjose/utils"
 )
 
@@ -19,5 +20,39 @@ func ConnectDiscord() {
 	if err != nil {
 		utils.SugarLogger.Errorln("Error sending Discord message, ", err)
 		return
+	}
+}
+
+func DiscordLogNewUser(user model.User) {
+	var embeds []*discordgo.MessageEmbed
+	var fields []*discordgo.MessageEmbedField
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "ID",
+		Value:  user.ID,
+		Inline: false,
+	})
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "Email",
+		Value:  user.Email,
+		Inline: true,
+	})
+	//fields = append(fields, &discordgo.MessageEmbedField{
+	//	Name:   "School",
+	//	Value:  user.School.School.Name,
+	//	Inline: true,
+	//})
+	embeds = append(embeds, &discordgo.MessageEmbed{
+		Title: "New Account Created!",
+		Color: 6609663,
+		Author: &discordgo.MessageEmbedAuthor{
+			URL:     "https://app.pacificesports.org/u/" + user.ID,
+			Name:    user.FirstName + " " + user.LastName,
+			IconURL: user.ProfilePictureURL,
+		},
+		Fields: fields,
+	})
+	_, err := Discord.ChannelMessageSendEmbeds(config.DiscordChannel, embeds)
+	if err != nil {
+		utils.SugarLogger.Errorln(err.Error())
 	}
 }
