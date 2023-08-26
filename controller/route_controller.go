@@ -10,7 +10,7 @@ import (
 )
 
 func InitializeRoutes(router *gin.Engine) {
-	router.GET("/sj/ping", Ping)
+	router.GET("/sanjose/ping", Ping)
 	router.GET("/users", GetAllUsers)
 	router.GET("/users/:userID", GetUserByID)
 	router.POST("/users/:userID", CreateUser)
