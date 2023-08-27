@@ -4,13 +4,14 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"log"
+	"sanjose/config"
 	"sanjose/service"
 	"sanjose/utils"
 	"strings"
 )
 
 func InitializeRoutes(router *gin.Engine) {
-	router.GET("/sanjose/ping", Ping)
+	router.GET("/"+strings.ToLower(config.Service.Name)+"/ping", Ping)
 	router.GET("/users", GetAllUsers)
 	router.GET("/users/:userID", GetUserByID)
 	router.POST("/users/:userID", CreateUser)
