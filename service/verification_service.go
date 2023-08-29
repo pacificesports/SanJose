@@ -16,6 +16,11 @@ func GetVerificationForUser(userID string) model.Verification {
 
 func SetVerificationForUser(userID string, verification model.Verification) error {
 	verification.UserID = userID
+	if verification.Status == "ACCEPTED" {
+		verification.IsVerified = true
+	} else {
+		verification.IsVerified = false
+	}
 	if DB.Where("user_id = ?", userID).Select("*").Updates(&verification).RowsAffected == 0 {
 		utils.SugarLogger.Infoln("New verification created for user with id: " + userID)
 		if result := DB.Create(&verification); result.Error != nil {

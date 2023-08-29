@@ -27,5 +27,6 @@ var PostgresPort = os.Getenv("POSTGRES_PORT")
 var DiscordToken = os.Getenv("DISCORD_TOKEN")
 var DiscordGuild = os.Getenv("DISCORD_GUILD")
 var DiscordChannel = os.Getenv("DISCORD_CHANNEL")
+var DiscordVerificationChannel = os.Getenv("DISCORD_VERIFICATION_CHANNEL")
 
 var FirebaseServiceAccountEncoded = os.Getenv("FIREBASE_SERVICE_ACCOUNT")

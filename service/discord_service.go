@@ -36,14 +36,85 @@ func DiscordLogNewUser(user model.User) {
 		Value:  user.Email,
 		Inline: true,
 	})
-	//fields = append(fields, &discordgo.MessageEmbedField{
-	//	Name:   "School",
-	//	Value:  user.School.School.Name,
-	//	Inline: true,
-	//})
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "School",
+		Value:  user.School.SchoolID,
+		Inline: true,
+	})
 	embeds = append(embeds, &discordgo.MessageEmbed{
 		Title: "New Account Created!",
 		Color: 6609663,
+		Author: &discordgo.MessageEmbedAuthor{
+			URL:     "https://app.pacificesports.org/u/" + user.ID,
+			Name:    user.FirstName + " " + user.LastName,
+			IconURL: user.ProfilePictureURL,
+		},
+		Fields: fields,
+	})
+	_, err := Discord.ChannelMessageSendEmbeds(config.DiscordChannel, embeds)
+	if err != nil {
+		utils.SugarLogger.Errorln(err.Error())
+	}
+}
+
+func DiscordLogUserVerificationRequested(user model.User) {
+	var embeds []*discordgo.MessageEmbed
+	var fields []*discordgo.MessageEmbedField
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "ID",
+		Value:  user.ID,
+		Inline: false,
+	})
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "Email",
+		Value:  user.Email,
+		Inline: true,
+	})
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "School",
+		Value:  user.School.SchoolID,
+		Inline: true,
+	})
+	embeds = append(embeds, &discordgo.MessageEmbed{
+		Title: "Account Verification Requested!",
+		Color: 15793985,
+		Author: &discordgo.MessageEmbedAuthor{
+			URL:     "https://app.pacificesports.org/u/" + user.ID,
+			Name:    user.FirstName + " " + user.LastName,
+			IconURL: user.ProfilePictureURL,
+		},
+		Fields: fields,
+	})
+	_, err := Discord.ChannelMessageSendEmbeds(config.DiscordChannel, embeds)
+	if config.DiscordVerificationChannel != config.DiscordChannel {
+		_, err = Discord.ChannelMessageSendEmbeds(config.DiscordVerificationChannel, embeds)
+	}
+	if err != nil {
+		utils.SugarLogger.Errorln(err.Error())
+	}
+}
+
+func DiscordLogUserVerificationApproved(user model.User) {
+	var embeds []*discordgo.MessageEmbed
+	var fields []*discordgo.MessageEmbedField
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "ID",
+		Value:  user.ID,
+		Inline: false,
+	})
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "Email",
+		Value:  user.Email,
+		Inline: true,
+	})
+	fields = append(fields, &discordgo.MessageEmbedField{
+		Name:   "School",
+		Value:  user.School.SchoolID,
+		Inline: true,
+	})
+	embeds = append(embeds, &discordgo.MessageEmbed{
+		Title: "Account Verified!",
+		Color: 7274329,
 		Author: &discordgo.MessageEmbedAuthor{
 			URL:     "https://app.pacificesports.org/u/" + user.ID,
 			Name:    user.FirstName + " " + user.LastName,

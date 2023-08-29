@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"sanjose/config"
 	"sanjose/model"
 	"sanjose/service"
 )
@@ -22,8 +23,12 @@ func SetVerificationForUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
-	if input.Status == "REJECTED" {
-
+	user := service.GetUserByID(c.Param("userID"))
+	go service.Discord.ChannelMessageSend(config.DiscordChannel, "<@"+user.ID+"> "+user.FirstName+user.LastName+"'s verification status is now `"+input.Status+"`")
+	if input.Status == "REQUESTED" {
+		go service.DiscordLogUserVerificationRequested(user)
+	} else if input.Status == "ACCEPTED" {
+		go service.DiscordLogUserVerificationApproved(user)
 	}
 	c.JSON(http.StatusOK, service.GetVerificationForUser(c.Param("userID")))
 }
