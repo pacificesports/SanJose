@@ -20,6 +20,7 @@ func InitializeRoutes(router *gin.Engine) {
 	router.POST("/users/:userID/roles", SetRolesForUser)
 	router.GET("/users/:userID/verification", GetVerificationForUser)
 	router.POST("/users/:userID/verification", SetVerificationForUser)
+	router.GET("/users/verification/:status", GetUsersWithVerificationStatus)
 }
 
 func RequestLogger() gin.HandlerFunc {

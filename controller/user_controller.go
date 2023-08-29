@@ -21,6 +21,11 @@ func GetUserByID(c *gin.Context) {
 	}
 }
 
+func GetUsersWithVerificationStatus(c *gin.Context) {
+	result := service.GetUsersWithVerificationStatus(c.Param("status"))
+	c.JSON(http.StatusOK, result)
+}
+
 func CreateUser(c *gin.Context) {
 	var input model.User
 	if err := c.ShouldBindJSON(&input); err != nil {

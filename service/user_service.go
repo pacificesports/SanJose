@@ -38,6 +38,21 @@ func GetUserByID(userID string) model.User {
 	return user
 }
 
+func GetUsersWithVerificationStatus(status string) []model.User {
+	users := make([]model.User, 0)
+	var userIds []string
+	result := DB.Table("user_verification").Where("status = ?", status).Pluck("user_id", &userIds)
+	if result.Error != nil {
+		utils.SugarLogger.Errorln(result.Error.Error())
+	}
+	for _, userID := range userIds {
+		if user := GetUserByID(userID); user.ID != "" {
+			users = append(users, user)
+		}
+	}
+	return users
+}
+
 func CreateUser(user model.User) error {
 	if DB.Where("id = ?", user.ID).Updates(&user).RowsAffected == 0 {
 		utils.SugarLogger.Infoln("New user created with id: " + user.ID)

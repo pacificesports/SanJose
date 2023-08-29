@@ -10,6 +10,10 @@ import (
 
 func GetVerificationForUser(c *gin.Context) {
 	result := service.GetVerificationForUser(c.Param("userID"))
+	if result.UserID == "" {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No verification found for user with given id: " + c.Param("userID")})
+		return
+	}
 	c.JSON(http.StatusOK, result)
 }
 
