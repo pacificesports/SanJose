@@ -28,11 +28,13 @@ func GetUserByID(userID string) model.User {
 	if result.Error != nil {
 		utils.SugarLogger.Errorln(result.Error.Error())
 	}
-	user.Roles = GetRolesForUser(user.ID)
-	user.Privacy = GetPrivacyForUser(user.ID)
-	user.School = GetSchoolForUser(user.ID)
-	user.Verification = GetVerificationForUser(user.ID)
-	user.Connections = GetConnectionsForUser(user.ID)
+	if user.ID != "" {
+		user.Roles = GetRolesForUser(user.ID)
+		user.Privacy = GetPrivacyForUser(user.ID)
+		user.School = GetSchoolForUser(user.ID)
+		user.Verification = GetVerificationForUser(user.ID)
+		user.Connections = GetConnectionsForUser(user.ID)
+	}
 	return user
 }
 

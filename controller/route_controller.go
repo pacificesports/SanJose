@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 	"sanjose/config"
 	"sanjose/service"
 	"sanjose/utils"
@@ -16,6 +17,9 @@ func InitializeRoutes(router *gin.Engine) {
 	router.GET("/users/:userID", GetUserByID)
 	router.POST("/users/:userID", CreateUser)
 	router.GET("/users/:userID/roles", GetRolesForUser)
+	router.POST("/users/:userID/roles", SetRolesForUser)
+	router.GET("/users/:userID/verification", GetVerificationForUser)
+	router.POST("/users/:userID/verification", SetVerificationForUser)
 }
 
 func RequestLogger() gin.HandlerFunc {
@@ -59,7 +63,15 @@ func AuthChecker() gin.HandlerFunc {
 			// to have a matching user ID or the ADMIN role
 			if c.Request.Method == "POST" {
 				if requestUserID != c.Param("userID") && !contains(requestUserRoles, "ADMIN") {
-					//c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "You do not have permission to edit this resource"})
+					c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "You do not have permission to edit this resource"})
+				}
+			}
+		} else if c.FullPath() == "/users/:userID/verification" {
+			// Updating users' verification through this endpoint requires the requesting user
+			// to have the VERIFICATION_WRITE, ADMIN roles
+			if c.Request.Method == "POST" {
+				if requestUserID != c.Param("userID") && !contains(requestUserRoles, "ADMIN") && !contains(requestUserRoles, "VERIFICATION_WRITE") {
+					c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "You do not have permission to edit this resource"})
 				}
 			}
 		}

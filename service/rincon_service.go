@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"sanjose/config"
+	"sanjose/model"
 	"sanjose/utils"
 	"strconv"
 	"strings"
@@ -66,4 +67,23 @@ func RegisterRinconRoute(route string) {
 	if err != nil {
 	}
 	utils.SugarLogger.Infoln("Registered route " + route)
+}
+
+func MatchRoute(route string, requestID string) model.Service {
+	var service model.Service
+	queryRoute := strings.ReplaceAll(route, "/", "<->")
+	rinconClient := http.Client{}
+	req, _ := http.NewRequest("GET", rinconHost+"/routes/match/"+queryRoute, nil)
+	req.Header.Set("Request-ID", requestID)
+	req.Header.Add("Content-Type", "application/json")
+	res, err := rinconClient.Do(req)
+	if err != nil {
+		utils.SugarLogger.Errorln(err.Error())
+		return service
+	}
+	defer res.Body.Close()
+	if res.StatusCode == 200 {
+		json.NewDecoder(res.Body).Decode(&service)
+	}
+	return service
 }
