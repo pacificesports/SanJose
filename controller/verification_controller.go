@@ -28,7 +28,7 @@ func SetVerificationForUser(c *gin.Context) {
 		return
 	}
 	user := service.GetUserByID(c.Param("userID"))
-	go service.Discord.ChannelMessageSend(config.DiscordChannel, "<@"+user.ID+"> "+user.FirstName+user.LastName+"'s verification status is now `"+input.Status+"`")
+	go service.Discord.ChannelMessageSend(config.DiscordChannel, "<@"+user.ID+"> "+user.FirstName+" "+user.LastName+"'s verification status is now `"+input.Status+"`")
 	if input.Status == "REQUESTED" {
 		go service.DiscordLogUserVerificationRequested(user)
 	} else if input.Status == "ACCEPTED" {
